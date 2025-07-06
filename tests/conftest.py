@@ -39,10 +39,11 @@ async def test_client(test_session):
         return test_session
     
     app.dependency_overrides[get_session] = override_get_session
-    # Правильная инициализация для новых версий httpx
+    
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://testserver") as client:
         yield client
+    
     app.dependency_overrides.clear()
 
 @pytest.fixture
@@ -70,5 +71,5 @@ async def test_user(test_session):
 
 @pytest.fixture
 def auth_headers(test_user):
-    token = create_access_token({"user_id": test_user.id, "username": test_user.username})
+    token = create_access_token(user_id=test_user.id, username=test_user.username)
     return {"Authorization": f"Bearer {token}"}
