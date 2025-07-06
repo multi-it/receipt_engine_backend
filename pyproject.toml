@@ -1,13 +1,9 @@
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "receipt-management-api"
 version = "0.1.0"
 description = "REST API for receipt management"
 authors = [
-    {name = "Developer", email = "dev@example.com"},
+    {name = "Yuriy"}
 ]
 requires-python = ">=3.11"
 dependencies = [
@@ -22,4 +18,17 @@ dependencies = [
     "asyncpg>=0.29.0",
     "python-dotenv>=1.0.0",
     "psycopg2-binary>=2.9.0",
+    "pytest>=7.4.3",
+    "pytest-asyncio>=0.21.1",
+    "httpx>=0.25.2",
+    "pytest-cov>=4.1.0",
+    "aiosqlite>=0.19.0",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests"
 ]

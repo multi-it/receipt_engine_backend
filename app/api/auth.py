@@ -29,15 +29,16 @@ async def register_user(
         )
     
     user = User(
-        full_name=user_data.fullname,
+        fullname=user_data.fullname,
         username=user_data.username,
         email=user_data.email,
         password_hash=hash_password(user_data.password)
     )
+    
     user.validate()
     
     db_user = UserModel(
-        full_name=user.full_name,
+        fullname=user.fullname,
         username=user.username,
         email=user.email,
         password_hash=user.password_hash
@@ -49,7 +50,7 @@ async def register_user(
     
     return UserResponse(
         id=db_user.id,
-        fullname=db_user.full_name,
+        fullname=db_user.fullname,
         username=db_user.username,
         email=db_user.email,
         is_active=db_user.is_active

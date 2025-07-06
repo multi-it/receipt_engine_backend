@@ -12,23 +12,27 @@ async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
     session: AsyncSession = Depends(get_session)
 ) -> UserModel:
-    token_data = verify_token(credentials.credentials)
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
     
-    if not token_data or token_data.get("type") != "access":
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid token"
-        )
+    try:
+        token = credentials.credentials
+        payload = verify_token(token)
+        if payload is None:
+            raise credentials_exception
+        user_id: int = payload.get("user_id")
+        if user_id is None:
+            raise credentials_exception
+    except Exception:
+        raise credentials_exception
     
-    user_id = token_data.get("user_id")
     stmt = select(UserModel).where(UserModel.id == user_id)
     result = await session.execute(stmt)
     user = result.scalar()
     
-    if not user or not user.is_active:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User not found or blocked"
-        )
-    
+    if user is None:
+        raise credentials_exception
     return user
