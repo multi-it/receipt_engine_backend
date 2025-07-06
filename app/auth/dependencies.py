@@ -2,6 +2,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+
 from app.database.connection import get_session
 from app.database.models import UserModel
 from app.auth.security import verify_token
@@ -23,7 +24,8 @@ async def get_current_user(
         payload = verify_token(token)
         if payload is None:
             raise credentials_exception
-        user_id: int = payload.get("user_id")
+        
+        user_id: int = int(payload.get("user_id"))
         if user_id is None:
             raise credentials_exception
     except Exception:
@@ -35,4 +37,5 @@ async def get_current_user(
     
     if user is None:
         raise credentials_exception
+    
     return user

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Optional, Dict, Any
 from decimal import Decimal
 from datetime import datetime
 from enum import Enum
@@ -47,3 +47,11 @@ class ReceiptListResponse(BaseModel):
     total_pages: int
     has_next: bool
     has_prev: bool
+
+class ReceiptStatsResponse(BaseModel):
+    total_receipts: int
+    total_amount: Decimal
+    average_amount: Decimal
+    max_amount: Decimal
+    min_amount: Decimal
+    payment_type_stats: List[Dict[str, Any]]

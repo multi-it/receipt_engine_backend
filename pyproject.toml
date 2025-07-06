@@ -3,7 +3,7 @@ name = "receipt-management-api"
 version = "0.1.0"
 description = "REST API for receipt management"
 authors = [
-    {name = "Yuriy"}
+    {name = "Yuriy" }
 ]
 requires-python = ">=3.11"
 dependencies = [
@@ -30,5 +30,5 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 markers = [
     "unit: Unit tests",
-    "integration: Integration tests"
+    "integration: Integration tests",
 ]
