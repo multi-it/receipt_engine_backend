@@ -4,7 +4,6 @@ from app.config import settings
 
 engine = create_async_engine(settings.database_url, echo=True)
 async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
-
 Base = declarative_base()
 
 async def get_session():

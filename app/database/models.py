@@ -3,8 +3,8 @@ from sqlalchemy.sql import func
 from .connection import Base
 
 class UserModel(Base):
-    __tablename__ = 'users'
-
+    __tablename__ = "users"
+    
     id = Column(Integer, primary_key=True, index=True)
     full_name = Column(String, nullable=False)
     username = Column(String, unique=True, index=True, nullable=False)
